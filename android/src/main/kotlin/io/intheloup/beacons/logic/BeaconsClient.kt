@@ -39,6 +39,12 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
             beaconManager!!.beaconParsers.add(BeaconParser().setBeaconLayout("x,s:0-1=feaa,m:2-2=20,d:3-3,d:4-5,d:6-7,d:8-11,d:12-15"))
             beaconManager!!.beaconParsers.add(BeaconParser().setBeaconLayout("s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19"))
             beaconManager!!.beaconParsers.add(BeaconParser().setBeaconLayout("s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v"))
+            
+            // Change the scan period
+            beaconManager!!.foregroundScanPeriod = 125L;
+
+            // Set RSSI Filtering time : Lower - Less stable but more frequent distance change (Default 20s)
+            RangedBeacon.setSampleExpirationMilliseconds(2000L)
 
             sharedMonitor = SharedMonitor(application, callback)
         }
