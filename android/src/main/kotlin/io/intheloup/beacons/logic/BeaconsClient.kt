@@ -13,12 +13,12 @@ import android.util.Log
 import io.intheloup.beacons.BeaconsPlugin
 import io.intheloup.beacons.channel.DataRequest
 import io.intheloup.beacons.data.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import org.altbeacon.beacon.*
 import org.altbeacon.beacon.logging.LogManager
 import org.altbeacon.beacon.logging.Loggers
 import java.util.*
+
+// Forked package on oaansari Github
 
 
 class BeaconsClient(private val permissionClient: PermissionClient) : BeaconConsumer, RangeNotifier, MonitorNotifier {
