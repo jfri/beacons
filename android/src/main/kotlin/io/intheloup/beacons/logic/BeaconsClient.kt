@@ -16,6 +16,7 @@ import io.intheloup.beacons.data.*
 import org.altbeacon.beacon.*
 import org.altbeacon.beacon.logging.LogManager
 import org.altbeacon.beacon.logging.Loggers
+import org.altbeacon.beacon.service.RangedBeacon
 import java.util.*
 
 // Forked package on oaansari Github
