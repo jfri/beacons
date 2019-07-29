@@ -2,7 +2,7 @@ group 'io.intheloup.beacons'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.51'
     repositories {
         google()
         jcenter()
@@ -25,14 +25,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
         minSdkVersion 16
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -49,8 +49,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
 
-    implementation "com.android.support:support-compat:27.1.1"
-    implementation "com.android.support:support-core-utils:27.1.1"
+    implementation 'androidx.core:core:1.0.0-beta01'
+    implementation 'androidx.legacy:legacy-support-core-utils:1.0.0-beta01'
     implementation "org.altbeacon:android-beacon-library:2.14"
     implementation "com.squareup.moshi:moshi:1.5.0"
 
