@@ -13,14 +13,18 @@ import android.util.Log
 import io.intheloup.beacons.BeaconsPlugin
 import io.intheloup.beacons.channel.DataRequest
 import io.intheloup.beacons.data.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.altbeacon.beacon.*
 import org.altbeacon.beacon.logging.LogManager
-import org.altbeacon.beacon.logging.Loggers
 import org.altbeacon.beacon.service.RangedBeacon
+import org.altbeacon.beacon.logging.Loggers
 import java.util.*
+import androidx.core.app.ActivityCompat.startActivityForResult
+import android.bluetooth.BluetoothAdapter
+import androidx.core.content.ContextCompat.startActivity
 
-// Forked package on oaansari Github
-
+// Modified on Github/oaansari
 
 class BeaconsClient(private val permissionClient: PermissionClient) : BeaconConsumer, RangeNotifier, MonitorNotifier {
 
@@ -46,7 +50,6 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
 
             // Set RSSI Filtering time : Lower - Less stable but more frequent distance change (Default 20s)
             RangedBeacon.setSampleExpirationMilliseconds(2000L)
-
             sharedMonitor = SharedMonitor(application, callback)
         }
     }
@@ -103,9 +106,14 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
         Log.d(Tag, "removeBackgroundMonitoringListener")
         sharedMonitor!!.removeBackgroundListener(listener)
     }
+    var mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
     fun addRequest(request: Operation, permission: Permission) {
         try {
+            if (!mBluetoothAdapter.isEnabled) {
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                activity!!.startActivity(enableBtIntent)
+            }
             request.region.initFrameworkValue()
         } catch (e: Exception) {
             request.callback!!(Result.failure(Result.Error.Type.Runtime, request.region, e.message))
