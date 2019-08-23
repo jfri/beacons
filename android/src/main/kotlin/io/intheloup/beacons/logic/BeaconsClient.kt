@@ -62,8 +62,12 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
 
 
     fun bind(activity: Activity) {
-        this.activity = activity
-        beaconManager!!.bind(this)
+        if (activity != null){
+            this.activity = activity
+            if (beaconManger != null){
+                beaconManager!!.bind(this);
+            }
+        }
     }
 
     fun unbind() {
