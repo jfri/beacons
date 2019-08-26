@@ -55,22 +55,22 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
         }
     }
 
-    private var activity: Activity? = null
+    private var context: Context? = null
     private var isServiceConnected = false
     private var isPaused = false
 
     private val requests: ArrayList<Operation> = ArrayList()
 
 
-    fun bind(activity: Activity) {
-        this.activity = activity
+    fun bind(context: Context) {
+        this.context = context
         beaconManager!!.bind(this)
     }
 
     fun unbind() {
         beaconManager!!.removeRangeNotifier(this)
         beaconManager!!.unbind(this)
-        activity = null
+        context = null
         isServiceConnected = false
     }
 
@@ -113,7 +113,7 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
         try {
             if (!mBluetoothAdapter.isEnabled) {
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                activity!!.startActivity(enableBtIntent)
+                context!!.startActivity(enableBtIntent)
             }
             request.region.initFrameworkValue()
         } catch (e: Exception) {
@@ -255,15 +255,15 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
     // BeaconsConsumer
 
     override fun getApplicationContext(): Context {
-        return activity!!.applicationContext
+        return context!!.applicationContext
     }
 
     override fun unbindService(p0: ServiceConnection?) {
-        return activity!!.unbindService(p0)
+        return context!!.unbindService(p0)
     }
 
     override fun bindService(p0: Intent?, p1: ServiceConnection?, p2: Int): Boolean {
-        return activity!!.bindService(p0, p1, p2)
+        return context!!.bindService(p0, p1, p2)
     }
 
     override fun onBeaconServiceConnect() {

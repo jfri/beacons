@@ -21,10 +21,12 @@ class BeaconsPlugin(val registrar: Registrar) {
     init {
         registrar.addRequestPermissionsResultListener(permissionClient.listener)
 
-        beaconClient.bind(registrar.activity())
-        permissionClient.bind(registrar.activity())
+        beaconClient.bind(registrar.context())
+        registrar.activity()?.let {
+            permissionClient.bind(it)
+        }
 
-        registrar.activity().application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+        registrar.activity()?.application?.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 beaconClient.bind(activity)
                 permissionClient.bind(activity)
