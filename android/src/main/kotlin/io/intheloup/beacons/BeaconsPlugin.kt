@@ -5,7 +5,6 @@ package io.intheloup.beacons
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
 import android.os.Bundle
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import io.intheloup.beacons.channel.Channels

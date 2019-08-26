@@ -12,8 +12,6 @@ import io.flutter.plugin.common.PluginRegistry
 import io.intheloup.beacons.BeaconsPlugin
 import io.intheloup.beacons.data.Permission
 import io.intheloup.beacons.data.Result
-import kotlinx.coroutines.android.UI
-import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine

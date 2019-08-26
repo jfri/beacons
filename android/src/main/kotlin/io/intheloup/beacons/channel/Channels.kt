@@ -3,9 +3,6 @@
 
 package io.intheloup.beacons.channel
 
-import android.bluetooth.BluetoothAdapter
-import android.content.Intent
-import androidx.core.content.ContextCompat
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -17,8 +14,8 @@ import io.intheloup.beacons.logic.BeaconsClient
 import io.intheloup.beacons.logic.PermissionClient
 import io.intheloup.beacons.logic.SharedMonitor
 import io.intheloup.streamschannel.StreamsChannel
-import kotlinx.coroutines.android.UI
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class Channels(private val permissionClient: PermissionClient,
@@ -54,7 +51,7 @@ class Channels(private val permissionClient: PermissionClient,
     }
 
     private fun requestPermission(permission: Permission, result: MethodChannel.Result) {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             result.success(permissionClient.check(permission).result)
         }
     }
@@ -65,7 +62,7 @@ class Channels(private val permissionClient: PermissionClient,
     }
 
     private fun startMonitoring(request: DataRequest, result: MethodChannel.Result) {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             result.success(beaconsClient.startMonitoring(request))
         }
     }
