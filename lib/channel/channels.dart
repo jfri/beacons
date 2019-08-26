@@ -22,9 +22,9 @@ class _Channels {
       _loggingTag,
       _channel,
       'checkStatus',
-      _Codec.encodeStatusRequest(request),
+      Codec.encodeStatusRequest(request),
     );
-    return _Codec.decodeResult(response);
+    return Codec.decodeResult(response);
   }
 
   Future<BeaconsResult> requestPermission(LocationPermission permission) async {
@@ -32,9 +32,9 @@ class _Channels {
       _loggingTag,
       _channel,
       'requestPermission',
-      _Codec.encodePermission(permission),
+      Codec.encodePermission(permission),
     );
-    return _Codec.decodeResult(response);
+    return Codec.decodeResult(response);
   }
 
   Future<void> configure(BeaconsSettings settings) async {
@@ -42,7 +42,7 @@ class _Channels {
       _loggingTag,
       _channel,
       'configure',
-      _Codec.encodeSettings(settings),
+      Codec.encodeSettings(settings),
     );
     return;
   }
@@ -52,9 +52,9 @@ class _Channels {
       _loggingTag,
       _channel,
       'startMonitoring',
-      _Codec.encodeDataRequest(request),
+      Codec.encodeDataRequest(request),
     );
-    return _Codec.decodeResult(response);
+    return Codec.decodeResult(response);
   }
 
   Future<void> stopMonitoring(BeaconRegion region) async {
@@ -62,26 +62,26 @@ class _Channels {
       _loggingTag,
       _channel,
       'stopMonitoring',
-      _Codec.encodeRegion(region),
+      Codec.encodeRegion(region),
     );
     return;
   }
 
   Stream<RangingResult> ranging(_DataRequest request) {
-    final String json = _Codec.encodeDataRequest(request);
+    final String json = Codec.encodeDataRequest(request);
     _log(json, tag: 'ranging');
     return _rangingChannel.receiveBroadcastStream(json).map((data) {
       _log(data, tag: 'ranging');
-      return _Codec.decodeRangingResult(data);
+      return Codec.decodeRangingResult(data);
     });
   }
 
   Stream<MonitoringResult> monitoring(_DataRequest request) {
-    final String json = _Codec.encodeDataRequest(request);
+    final String json = Codec.encodeDataRequest(request);
     _log(json, tag: 'monitoring');
     return _monitoringChannel.receiveBroadcastStream(json).map((data) {
       _log(data, tag: 'monitoring');
-      return _Codec.decodeMonitoringResult(data);
+      return Codec.decodeMonitoringResult(data);
     });
   }
 
@@ -89,7 +89,7 @@ class _Channels {
     _log('add listener', tag: 'backgroundMonitoringEvents');
     return _backgroundMonitoringChannel.receiveBroadcastStream().map((data) {
       _log(data, tag: 'backgroundMonitoringEvents');
-      return _Codec.decodeBackgroundMonitoringEvent(data);
+      return Codec.decodeBackgroundMonitoringEvent(data);
     });
   }
 }

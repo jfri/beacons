@@ -3,7 +3,7 @@
 
 part of beacons;
 
-class _Codec {
+class Codec {
   static BeaconsResult decodeResult(String data) =>
       _JsonCodec.resultFromJson(json.decode(data));
 
@@ -19,8 +19,8 @@ class _Codec {
 
   static String encodePermission(LocationPermission permission) =>
       platformSpecific(
-        android: _Codec.encodeEnum(permission.android),
-        ios: _Codec.encodeEnum(permission.ios),
+        android: Codec.encodeEnum(permission.android),
+        ios: Codec.encodeEnum(permission.ios),
       );
 
   static String encodeSettings(BeaconsSettings settings) => platformSpecific(
@@ -115,7 +115,7 @@ class _JsonCodec {
 
   static Beacon beaconFromJson(Map<String, dynamic> json) => new Beacon._(
       json['ids'],
-      _Codec.parseJsonNumber(json['distance']),
+      Codec.parseJsonNumber(json['distance']),
       json['rssi'],
       json['platformCustoms']);
 
@@ -175,7 +175,7 @@ class _JsonCodec {
   static Map<String, dynamic> settingsAndroidToJson(
           BeaconsSettingsAndroid settings) =>
       {
-        'logs': _Codec.encodeEnum(settings.logs),
+        'logs': Codec.encodeEnum(settings.logs),
       };
 
   static Map<String, dynamic> settingsIOSToJson(BeaconsSettingsIOS settings) =>
@@ -184,12 +184,12 @@ class _JsonCodec {
   static Map<String, dynamic> statusRequestToJson(_StatusRequest request) => {
         'ranging': request.ranging,
         'monitoring': request.monitoring,
-        'permission': _Codec.encodePermission(request.permission),
+        'permission': Codec.encodePermission(request.permission),
       };
 
   static Map<String, dynamic> dataRequestToJson(_DataRequest request) => {
         'region': regionToJson(request.region),
-        'permission': _Codec.encodePermission(request.permission),
+        'permission': Codec.encodePermission(request.permission),
         'inBackground': request.inBackground,
       };
 
