@@ -76,9 +76,7 @@ class PermissionClient {
     // Internals
 
     private fun checkDeclaration(permission: Permission): Boolean {
-        val permissions = activity!!.packageManager
-                .getPackageInfo(activity!!.packageName, PackageManager.GET_PERMISSIONS)
-                .requestedPermissions
+        val permissions = activity?.packageManager?.getPackageInfo(activity!!.packageName, PackageManager.GET_PERMISSIONS)?.requestedPermissions.orEmpty()
 
         return when {
             permissions.count { it == Manifest.permission.ACCESS_FINE_LOCATION } > 0 -> true
