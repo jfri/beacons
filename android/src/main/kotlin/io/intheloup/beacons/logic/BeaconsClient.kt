@@ -50,7 +50,7 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
             beaconManager!!.foregroundScanPeriod = 125L;
 
             // Set RSSI Filtering time : Lower - Less stable but more frequent distance change (Default 20s)
-            RangedBeacon.setSampleExpirationMilliseconds(2000L)
+            RangedBeacon.setSampleExpirationMilliseconds(60000L)
             sharedMonitor = SharedMonitor(application, callback)
         }
     }
