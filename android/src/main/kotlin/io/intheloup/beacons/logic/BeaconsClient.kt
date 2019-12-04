@@ -47,9 +47,9 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
             beaconManager!!.beaconParsers.add(BeaconParser().setBeaconLayout("s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v"))
             
             // Change the scan period
-            beaconManager!!.foregroundScanPeriod = 1100L;
-            beaconManager!!.backgroundScanPeriod = 10000L;
-            beaconManager!!.regionExitPeriod = 60000L;
+            beaconManager!!.foregroundScanPeriod = 1100L
+            beaconManager!!.backgroundScanPeriod = 10000L
+            BeaconManager.setRegionExitPeriod(60000L)
 
             // Set RSSI Filtering time : Lower - Less stable but more frequent distance change (Default 20s)
             RangedBeacon.setSampleExpirationMilliseconds(20000L)
