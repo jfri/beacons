@@ -50,7 +50,7 @@ dependencies {
 
     implementation 'androidx.core:core:1.0.2'
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
-    implementation "org.altbeacon:android-beacon-library:2.16.2"
+    implementation "org.altbeacon:android-beacon-library:2.16.3"
     implementation 'com.squareup.moshi:moshi:1.8.0'
 
     compileOnly rootProject.findProject(":streams_channel")
