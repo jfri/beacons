@@ -10,31 +10,22 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import io.intheloup.beacons.channel.Channels
 import io.intheloup.beacons.data.BackgroundMonitoringEvent
 import io.intheloup.beacons.logic.BeaconsClient
-import io.intheloup.beacons.logic.PermissionClient
 
 class BeaconsPlugin(val registrar: Registrar) {
 
-    private val permissionClient = PermissionClient()
-    private val beaconClient = BeaconsClient(permissionClient)
-    private val channels = Channels(permissionClient, beaconClient)
+    private val beaconClient = BeaconsClient()
+    private val channels = Channels(beaconClient)
 
     init {
-        registrar.addRequestPermissionsResultListener(permissionClient.listener)
-
         beaconClient.bind(registrar.context())
-        registrar.activity()?.let {
-            permissionClient.bind(it)
-        }
 
         registrar.activity()?.application?.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 beaconClient.bind(activity)
-                permissionClient.bind(activity)
             }
 
             override fun onActivityDestroyed(activity: Activity) {
                 beaconClient.unbind()
-                permissionClient.unbind()
             }
 
             override fun onActivityResumed(activity: Activity?) {

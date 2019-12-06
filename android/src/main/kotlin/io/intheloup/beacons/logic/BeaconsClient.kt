@@ -27,7 +27,7 @@ import kotlinx.coroutines.GlobalScope
 
 // Modified on Github/oaansari
 
-class BeaconsClient(private val permissionClient: PermissionClient) : BeaconConsumer, RangeNotifier, MonitorNotifier {
+class BeaconsClient() : BeaconConsumer, RangeNotifier, MonitorNotifier {
 
     companion object {
         private const val Tag = "beacons client"
@@ -126,12 +126,6 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
         requests.add(request)
 
         GlobalScope.launch(Dispatchers.Main) {
-            val result = permissionClient.request(permission)
-            if (result !== PermissionClient.PermissionResult.Granted) {
-                request.callback!!(result.result)
-                return@launch
-            }
-
             if (requests.count { request === it } == 0) {
                 return@launch
             }
@@ -151,11 +145,6 @@ class BeaconsClient(private val permissionClient: PermissionClient) : BeaconCons
     suspend fun startMonitoring(request: DataRequest): Result {
         val operation = Operation(Operation.Kind.Monitoring, request.region, request.inBackground, null)
         requests.add(operation)
-
-        val result = permissionClient.request(request.permission)
-        if (result !== PermissionClient.PermissionResult.Granted) {
-            return result.result
-        }
 
         if (requests.count { operation === it } == 0) {
             return Result.success(null)

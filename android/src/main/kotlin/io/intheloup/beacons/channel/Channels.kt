@@ -11,15 +11,13 @@ import io.intheloup.beacons.data.Permission
 import io.intheloup.beacons.data.RegionModel
 import io.intheloup.beacons.data.Settings
 import io.intheloup.beacons.logic.BeaconsClient
-import io.intheloup.beacons.logic.PermissionClient
 import io.intheloup.beacons.logic.SharedMonitor
 import io.intheloup.streamschannel.StreamsChannel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class Channels(private val permissionClient: PermissionClient,
-               private val beaconsClient: BeaconsClient) : MethodChannel.MethodCallHandler {
+class Channels(private val beaconsClient: BeaconsClient) : MethodChannel.MethodCallHandler {
 
     fun register(plugin: BeaconsPlugin) {
         val methodChannel = MethodChannel(plugin.registrar.messenger(), "beacons")
@@ -37,22 +35,10 @@ class Channels(private val permissionClient: PermissionClient,
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result): Unit {
         when (call.method) {
-            "checkStatus" -> checkStatus(Codec.decodeStatusRequest(call.arguments), result)
-            "requestPermission" -> requestPermission(Codec.decodePermission(call.arguments), result)
             "configure" -> configure(Codec.decodeSettings(call.arguments), result)
             "startMonitoring" -> startMonitoring(Codec.decodeDataRequest(call.arguments), result)
             "stopMonitoring" -> stopMonitoring(Codec.decodeRegion(call.arguments), result)
             else -> result.notImplemented()
-        }
-    }
-
-    private fun checkStatus(request: StatusRequest, result: MethodChannel.Result) {
-        result.success(permissionClient.check(request.permission).result)
-    }
-
-    private fun requestPermission(permission: Permission, result: MethodChannel.Result) {
-        GlobalScope.launch(Dispatchers.Main) {
-            result.success(permissionClient.check(permission).result)
         }
     }
 
