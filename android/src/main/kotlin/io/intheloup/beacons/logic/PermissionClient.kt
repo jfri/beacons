@@ -45,10 +45,6 @@ class PermissionClient {
     }
 
     fun check(permission: Permission): PermissionResult {
-        if (!checkDeclaration(permission)) {
-            return PermissionResult.MissingDeclaration
-        }
-
         if (!checkGranted()) {
             return PermissionResult.Denied
         }
@@ -59,7 +55,6 @@ class PermissionClient {
     suspend fun request(permission: Permission): PermissionResult = suspendCoroutine { cont ->
         val current = check(permission)
         when (current) {
-            is PermissionResult.MissingDeclaration,
             is PermissionResult.Granted -> cont.resume(current)
             is PermissionResult.Denied -> {
                 val callback = Callback<Unit, Unit>(
@@ -73,18 +68,6 @@ class PermissionClient {
 
     }
 
-    // Internals
-
-    private fun checkDeclaration(permission: Permission): Boolean {
-        val permissions = activity?.packageManager?.getPackageInfo(activity!!.packageName, PackageManager.GET_PERMISSIONS)?.requestedPermissions.orEmpty()
-
-        return when {
-            permissions.count { it == Manifest.permission.ACCESS_FINE_LOCATION } > 0 -> true
-            permissions.count { it == Manifest.permission.ACCESS_COARSE_LOCATION } > 0 && permission == Permission.Coarse -> true
-            else -> false
-        }
-    }
-
     private fun checkGranted() =
             ContextCompat.checkSelfPermission(activity!!, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(activity!!, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -93,7 +76,6 @@ class PermissionClient {
     class Callback<in T, in E>(val success: (T) -> Unit, val failure: (E) -> Unit)
 
     sealed class PermissionResult(val result: Result) {
-        object MissingDeclaration : PermissionResult(Result.failure(Result.Error.Type.Runtime, message = "Missing location permission in AndroidManifest.xml. You need to addBackgroundListener one of ACCESS_FINE_LOCATION or ACCESS_COARSE_LOCATION. See readme for details.", fatal = true))
         object Denied : PermissionResult(Result.failure(Result.Error.Type.PermissionDenied))
         object Granted : PermissionResult(Result.success(true))
     }
