@@ -36,7 +36,7 @@ class BeaconsClient() : BeaconConsumer, RangeNotifier, MonitorNotifier {
         private var beaconManager: BeaconManager? = null
         private var sharedMonitor: SharedMonitor? = null
 
-        fun init(application: Application, callback: BeaconsPlugin.BackgroundMonitoringCallback) {
+        fun init(application: Application) {
             beaconManager = BeaconManager.getInstanceForApplication(application)
 
             // Add parsing support for iBeacon and Eddystone
@@ -53,7 +53,7 @@ class BeaconsClient() : BeaconConsumer, RangeNotifier, MonitorNotifier {
 
             // Set RSSI Filtering time : Lower - Less stable but more frequent distance change (Default 20s)
             RangedBeacon.setSampleExpirationMilliseconds(20000L)
-            sharedMonitor = SharedMonitor(application, callback)
+            sharedMonitor = SharedMonitor(application)
         }
     }
 
