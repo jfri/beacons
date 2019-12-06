@@ -19,35 +19,35 @@ class BeaconsPlugin(val registrar: Registrar) {
     init {
         beaconClient.bind(registrar.context())
 
-        registrar.activity()?.application?.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
-            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                beaconClient.bind(activity)
-            }
-
-            override fun onActivityDestroyed(activity: Activity) {
-                beaconClient.unbind()
-            }
-
-            override fun onActivityResumed(activity: Activity?) {
-                beaconClient.resume()
-            }
-
-            override fun onActivityPaused(activity: Activity?) {
-                beaconClient.pause()
-            }
-
-            override fun onActivityStarted(activity: Activity?) {
-
-            }
-
-            override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-
-            }
-
-            override fun onActivityStopped(activity: Activity?) {
-
-            }
-        })
+//        registrar.activity()?.application?.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+//            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+//                beaconClient.bind(activity)
+//            }
+//
+//            override fun onActivityDestroyed(activity: Activity) {
+//                beaconClient.unbind()
+//            }
+//
+//            override fun onActivityResumed(activity: Activity?) {
+//                beaconClient.resume()
+//            }
+//
+//            override fun onActivityPaused(activity: Activity?) {
+//                beaconClient.pause()
+//            }
+//
+//            override fun onActivityStarted(activity: Activity?) {
+//
+//            }
+//
+//            override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+//
+//            }
+//
+//            override fun onActivityStopped(activity: Activity?) {
+//
+//            }
+//        })
 
         channels.register(this)
     }
