@@ -18,13 +18,11 @@ import org.altbeacon.beacon.startup.RegionBootstrap
 import java.util.*
 
 
-class SharedMonitor(private val application: Application,
-                    private val callback: BeaconsPlugin.BackgroundMonitoringCallback) : MonitorNotifier, BootstrapNotifier {
+class SharedMonitor(private val application: Application) : MonitorNotifier, BootstrapNotifier {
 
     private val backgroundEvents = ArrayList<BackgroundMonitoringEvent>()
     private val backgroundListeners = ArrayList<BackgroundListener>()
     private val regionBootstrap = RegionBootstrap(this, ArrayList())
-    private var isBackgroundCallbackProcessed = false
 
     private var foregroundNotifier: MonitorNotifier? = null
 
@@ -42,10 +40,6 @@ class SharedMonitor(private val application: Application,
     fun attachForegroundNotifier(notifier: MonitorNotifier) {
         Log.d(Tag, "attach foreground notifier")
         this.foregroundNotifier = notifier
-
-        // foreground notifier being attached means background logic is already processed
-        // or not needed anymore
-        isBackgroundCallbackProcessed = true
     }
 
     fun detachForegroundNotifier(notifier: MonitorNotifier) {
@@ -77,11 +71,6 @@ class SharedMonitor(private val application: Application,
 
     private fun notifyBackground(event: BackgroundMonitoringEvent) {
         Log.d(Tag, "notify background: ${event.type} / ${event.state}")
-
-        if (!isBackgroundCallbackProcessed) {
-            isBackgroundCallbackProcessed = callback.onBackgroundMonitoringEvent(event)
-        }
-
         if (backgroundListeners.isNotEmpty()) {
             backgroundListeners.forEach { it.callback(event) }
         } else {
