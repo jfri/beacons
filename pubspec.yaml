@@ -5,7 +5,7 @@ author: Loup Inc. <hello@intheloup.io>
 homepage: https://github.com/loup-v/beacons
 
 environment:
-  sdk: '>=1.19.0 <3.0.0'
+  sdk: '>=1.0.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -13,7 +13,7 @@ dependencies:
 
   streams_channel:
     git:
-      url: https://github.com/oaansari/streams_channel.git
+      url: https://github.com/jfri/streams_channel.git
 
 flutter:
   plugin:

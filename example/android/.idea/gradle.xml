@@ -8,10 +8,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/../../android" />
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$USER_HOME$/development/flutter/.pub-cache/git/streams_channel-dc7c1b3e8789e6bda562cb17e008627d5c451ff0/android" />
-            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.2.9/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

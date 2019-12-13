@@ -10,12 +10,6 @@ class App : FlutterApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        BeaconsPlugin.init(this, object : BeaconsPlugin.BackgroundMonitoringCallback {
-            override fun onBackgroundMonitoringEvent(event: BackgroundMonitoringEvent): Boolean {
-                val intent = Intent(this@App, MainActivity::class.java)
-                startActivity(intent)
-                return true
-            }
-        })
+        BeaconsPlugin.init(this)
     }
 }
